@@ -16,7 +16,8 @@ var app = express();
 app.use(helmet());
 // Set up mongoose connection
 let mongoose = require('mongoose');
-let mongoDB = 'mongodb+srv://tinkinand:sublimean@cluster0-dzufl.azure.mongodb.net/local_library?retryWrites=true';
+let dev_db_url = 'mongodb+srv://tinkinand:sublimean@cluster0-dzufl.azure.mongodb.net/local_library?retryWrites=true';
+let mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB, {useNewUrlParser: true});
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
