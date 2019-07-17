@@ -12,7 +12,7 @@ exports.genre_list = function(req, res, next) {
     .exec(function(err, list_genre) {
         if (err) {return next(err);}
         // Succesfull, so render
-        res.render('genre_list', {title: 'Genre List', genre_list: list_genre});
+        res.render('genre_list', {title: 'Lista de Generos', genre_list: list_genre});
     });
 };
 
@@ -31,24 +31,24 @@ exports.genre_detail = function(req, res) {
     }, function(err, results) {
         if (err) {return next(err);}
         if(results.genre == null) { // no results
-            var err = new Error('Genre not found');
+            var err = new Error('Genero no encontrado');
             err.status = 404;
             return next(err);
         }
 
         // Successful, so render
-        res.render('genre_detail', {title: 'Genre Detail', genre: results.genre, genre_books: results.genre_books});
+        res.render('genre_detail', {title: 'Detalle de genero', genre: results.genre, genre_books: results.genre_books});
     });
 };
 
 // Display Genre create form on GET.
 exports.genre_create_get = function(req, res) {
-    res.render('genre_form', {title: 'Create Genre'});
+    res.render('genre_form', {title: 'Crear genero'});
 };
 
 // Handle Genre create on POST.
 exports.genre_create_post = [
-    body('name', 'Genre name required').isLength({ min: 1}).trim(),
+    body('name', 'Nombre de genero requerido').isLength({ min: 1}).trim(),
 
     // Sanitize (escape) the name field.
     sanitizeBody('name').escape(),
@@ -66,7 +66,7 @@ exports.genre_create_post = [
         if (!errors.isEmpty()) {
             // There are errors. Render the form agaun with sanitized values/error messages
             res.render('genre_form', {
-                title: 'Create Genre',
+                title: 'Crear genero',
                 genre: genre,
                 errors: errors.array()
             });
@@ -110,7 +110,7 @@ exports.genre_delete_get = function(req, res, next) {
             res.redirect('catalog/genres');
         }
         // Successful, so render.
-        res.render('genre_delete', {title: 'Delete Genre', genre: results.genre, genre_books: results.genre_books});
+        res.render('genre_delete', {title: 'Borrar genero', genre: results.genre, genre_books: results.genre_books});
     });
 };
 
@@ -128,7 +128,7 @@ exports.genre_delete_post = function(req, res, next) {
         console.log(results.genre_books.length);
         if (results.genre_books.length > 0) {
             // Genre have books. Render in same ways a GET royte
-            res.render('genre_delete', {title: 'Delete Genre', genre: results.genre, genre_books: results.genre_books});
+            res.render('genre_delete', {title: 'Borrar genero', genre: results.genre, genre_books: results.genre_books});
             return;
         }
         else {
@@ -146,17 +146,17 @@ exports.genre_update_get = function(req, res, next) {
     Genre.findById(req.params.id).exec(function(err, result) {
         if(err) {return next(err);}
         if(result == null) {
-            var err = new Error('Genre not found');
+            var err = new Error('Genero no encontrado');
             err.status = 404;
             return next(err);
         }
-        res.render('genre_form', {title: 'Update Genre', genre: result});
+        res.render('genre_form', {title: 'Actualizar genero', genre: result});
     })
 };
 
 // Handle Genre update on POST.
 exports.genre_update_post = [
-    body('name', 'Name must not be empty').isLength({min: 1}).trim(),
+    body('name', 'Nombre de debe estar vacio.').isLength({min: 1}).trim(),
     sanitizeBody('name').escape(),
     (req, res, next) => {
         const errors = validationResult(req);
@@ -168,7 +168,7 @@ exports.genre_update_post = [
             });
         if(!errors.isEmpty()) {
             // There are aerros. Render form agaun with sanitized values/error messages.
-            res.render('genre_form', {title: 'Update Genre', genre: genre, errors: errors.array()});
+            res.render('genre_form', {title: 'Actualizar genero', genre: genre, errors: errors.array()});
             return;
         }
         else {

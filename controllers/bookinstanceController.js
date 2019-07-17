@@ -12,7 +12,7 @@ exports.bookinstance_list = function(req, res, next) {
     .exec(function (err, list_bookinstances) {
         if (err) { return next(err); }
         // Successful, so render
-        res.render('bookinstance_list', {title: 'Book Instances List', bookinstance_list: list_bookinstances});
+        res.render('bookinstance_list', {title: 'Lista copias de libros', bookinstance_list: list_bookinstances});
     })
 };
 
@@ -23,12 +23,12 @@ exports.bookinstance_detail = function(req, res, next) {
     .exec(function (err, bookinstance) {
       if (err) { return next(err); }
       if (bookinstance==null) { // No results.
-          var err = new Error('Book copy not found');
+          var err = new Error('Copia de libro no encontrada');
           err.status = 404;
           return next(err);
         }
       // Successful, so render.
-      res.render('bookinstance_detail', { title: 'Book:', bookinstance:  bookinstance});
+      res.render('bookinstance_detail', { title: 'Libro:', bookinstance:  bookinstance});
     })
 };
 
@@ -38,7 +38,7 @@ exports.bookinstance_create_get = function(req, res, next) {
     .exec(function (err, books) {
       if (err) { return next(err); }
       // Successful, so render.
-      res.render('bookinstance_form', {title: 'Create BookInstance', book_list:books});
+      res.render('bookinstance_form', {title: 'Crear copia de libro', book_list:books});
     });
 };
 
@@ -46,9 +46,9 @@ exports.bookinstance_create_get = function(req, res, next) {
 exports.bookinstance_create_post = [
 
     // Validate fields.
-    body('book', 'Book must be specified').isLength({ min: 1 }).trim(),
-    body('imprint', 'Imprint must be specified').isLength({ min: 1 }).trim(),
-    body('due_back', 'Invalid date').optional({ checkFalsy: true }).isISO8601(),
+    body('book', 'Libro debe ser especificado').isLength({ min: 1 }).trim(),
+    body('imprint', 'Impresion debe ser especificado').isLength({ min: 1 }).trim(),
+    body('due_back', 'Fecha invalida').optional({ checkFalsy: true }).isISO8601(),
     
     // Sanitize fields.
     sanitizeBody('book').escape(),
@@ -76,7 +76,7 @@ exports.bookinstance_create_post = [
                 .exec(function (err, books) {
                     if (err) { return next(err); }
                     // Successful, so render.
-                    res.render('bookinstance_form', { title: 'Create BookInstance', book_list : books, selected_book : bookinstance.book._id , errors: errors.array(), bookinstance:bookinstance });
+                    res.render('bookinstance_form', { title: 'Crear Copia de libro', book_list : books, selected_book : bookinstance.book._id , errors: errors.array(), bookinstance:bookinstance });
             });
             return;
         }
@@ -101,7 +101,7 @@ exports.bookinstance_delete_get = function(req, res) {
             res.redirect('/catalog/bookinstances')
         }
 
-        res.render('bookinstance_delete', {title: 'Delete Book Instance', bookinstance: instance})
+        res.render('bookinstance_delete', {title: 'Borrar copia de libro', bookinstance: instance})
     })
 };
 
@@ -134,7 +134,7 @@ exports.bookinstance_update_get = function(req, res, next) {
             err.status(404);
             return next(err);
         }
-        res.render('bookinstance_form', {title: 'Update Book Instance', book_list: results.book_list, bookinstance: results.book_instance });
+        res.render('bookinstance_form', {title: 'Actualizar copia de libro', book_list: results.book_list, bookinstance: results.book_instance });
     })
 };
 
@@ -167,7 +167,7 @@ exports.bookinstance_update_post = [
                     book_instance: BookInstance.findById(req.params.id).exec(callback)
                 }, function(err, results) {
                     if (err) {return next(err); }
-                    res.render('bookinstance_form',{title: 'Update Book Instance', book_list: results.book_list, bookinstance: results.book_instance, errors: errors.array() });
+                    res.render('bookinstance_form',{title: 'Actualizar copia de libro', book_list: results.book_list, bookinstance: results.book_instance, errors: errors.array() });
                 });
                 return;
             }

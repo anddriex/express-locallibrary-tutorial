@@ -3,18 +3,18 @@ extends layout
 block content
   h1 #{title}: #{book.title}
   
-  p #[strong Author:] 
+  p #[strong Autor:]
     a(href=book.author.url) #{book.author.name}
-  p #[strong Summary:] #{book.summary}
+  p #[strong Resumen:] #{book.summary}
   p #[strong ISBN:] #{book.isbn}
-  p #[strong Genre:]&nbsp;
+  p #[strong Genero:]&nbsp;
     each val, index in book.genre
       a(href=val.url) #{val.name}
       if index < book.genre.length - 1
         |, 
   
   div(style='margin-left:20px;margin-top:20px')
-    h4 Copies
+    h4 Copias
     
     each val in book_instances
       hr
@@ -26,13 +26,13 @@ block content
         p.text-warning #{val.status} 
       p #[strong Imprint:] #{val.imprint}
       if val.status!='Available'
-        p #[strong Due back:] #{val.due_back_formatted}
+        p #[strong fecha de devolucion:] #{val.due_back_formatted}
       p #[strong Id:]&nbsp;
         a(href=val.url) #{val._id}
     else
-      p There are no copies of this book in the library.
+      p No hay copias de este libro en esta libreria.
       hr
     p
-      a(href=book.url+'/delete') Delete Book
+      a(href=book.url+'/delete') Borrar Libro
     p
-      a(href=book.url+'/update') Update Book
+      a(href=book.url+'/update') Actualizar Libro

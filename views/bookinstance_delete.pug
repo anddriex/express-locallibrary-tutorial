@@ -1,12 +1,12 @@
 extends layout
 block content
     h1 #{title}: #{bookinstance.book.title}
-    p Due: #{bookinstance.due_back_formatted}
+    p fecha entrega: #{bookinstance.due_back_formatted}
 
-    p Do you really want to delete this book instance?
+    p Esta seguro de borrar esta instancia de libro?
     
     form(method='POST' action='')
       div.form-group
         input#bookinstanceid.form-control(type='hidden',name='bookinstanceid', required='true', value=bookinstance._id )
 
-      button.btn.btn-primary(type='submit') Delete
+      button.btn.btn-primary(type='submit') Borrar

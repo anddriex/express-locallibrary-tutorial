@@ -25,7 +25,7 @@ exports.index = function(req, res) {
             Genre.countDocuments({}, callback);
         }
     }, function(err, results) {
-        res.render('index', { title: 'Local Library Home', error: err, data: results });
+        res.render('index', { title: 'Libreria Universitaria Inicio', error: err, data: results });
     });
 };
 
@@ -36,7 +36,7 @@ exports.book_list = function(req, res, next) {
     .exec(function (err, list_books) {
         if (err) { return next(err); }
         // Successful, so render
-        res.render('book_list', {title: 'Book List', book_list: list_books})
+        res.render('book_list', {title: 'Lista de libros', book_list: list_books})
     })
 };
 
@@ -56,13 +56,13 @@ exports.book_detail = function(req, res, next) {
     }, function(err, results) {
         if (err) { return next(err); }
         if ( results.book == null) {// No results.
-            var err = new Error('Book not found');
+            var err = new Error('Libro no encontrado');
             err.status = 404;
             return next(err);
         }
 
         // Successfull, so render
-        res.render('book_detail', {title: 'Title', book: results.book, book_instances: results.book_instance });
+        res.render('book_detail', {title: 'Titutlo', book: results.book, book_instances: results.book_instance });
     });
 };
 
@@ -77,7 +77,7 @@ exports.book_create_get = function(req, res, next) {
        },
     }, function(err, results){
         if (err) { return next(err); }
-        res.render('book_form', { title: 'Create Books', authors: results.authors, genres: results.genres});
+        res.render('book_form', { title: 'Crear Libro', authors: results.authors, genres: results.genres});
     });
 };
 

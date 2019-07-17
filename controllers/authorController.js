@@ -14,7 +14,7 @@ exports.author_list = function(req, res, next) {
     .exec(function(err, list_authors) {
         if (err) { return next(err); }
         // Successful, so render
-        res.render('author_list', {title: 'Author List', author_list: list_authors});
+        res.render('author_list', {title: 'Lista de autores', author_list: list_authors});
     });
 };
 
@@ -32,18 +32,18 @@ exports.author_detail = function(req, res, next) {
     }, function(err, results) {
         if (err) { return next(err); } // Error in API usage.
         if (results.author==null) { // No results.
-            var err = new Error('Author not found');
+            var err = new Error('Autor no encontrado');
             err.status = 404;
             return next(err);
         }
         // Successful, so render.
-        res.render('author_detail', { title: 'Author Detail', author: results.author, author_books: results.authors_books } );
+        res.render('author_detail', { title: 'Detalle de autor', author: results.author, author_books: results.authors_books } );
     });
 };
 
 // Display Author create form on GET.
 exports.author_create_get = function(req, res, next) {
-    res.render('author_form', {title: 'Create Author'});
+    res.render('author_form', {title: 'Crear Autor'});
 };
 
 // Handle Author create on POST.
@@ -70,7 +70,7 @@ exports.author_create_post = [
 
         if(!errors.isEmpty()) {
             // There are errors. Render for again with sanitized values/errors messages.
-            res.render('author_form', {title: 'Create Author', author: req.body, errors: errors.array()});
+            res.render('author_form', {title: 'Crear Autor', author: req.body, errors: errors.array()});
             return;
         }
         else {
@@ -108,9 +108,9 @@ exports.author_delete_get = function(req, res, next) {
             res.redirect('/catalog/authors');
         }
         // Successful, so render.
-        res.render('author_delete', { title: 'Delete Author', author: results.author, author_books: results.authors_books } );
+        res.render('author_delete', { title: 'Borrar autor', author: results.author, author_books: results.authors_books } );
     });
-}
+};
 
 // Handle Author delete on POST.
 exports.author_delete_post = function(req, res, next) {
@@ -127,7 +127,7 @@ exports.author_delete_post = function(req, res, next) {
 
         if (results.authors_books.length > 0) {
             // Author has books. Render in same way as for GET route
-            res.render('author_delete', {title: 'Delete Author', author: results.author, author_books: results.authors_books})
+            res.render('author_delete', {title: 'Borrar Autor', author: results.author, author_books: results.authors_books})
             return;
         }
         else {
@@ -142,8 +142,7 @@ exports.author_delete_post = function(req, res, next) {
 
 // Display Author update form on GET.
 exports.author_update_get = function(req, res, next) {
-
-    req.sanitize('id').escape().trim();
+    // req.sanitize('id').escape().trim();
     Author.findById(req.params.id)
     .exec(function(err, result) {
         if (err) {
@@ -151,11 +150,11 @@ exports.author_update_get = function(req, res, next) {
             return next(err);
         }
         if (result == null) {
-            var err = new Error('Author not found');
+            var err = new Error('Autor no encontrado');
             err.status = 404;
             return next(err);
         }
-        res.render('author_form', {title: 'Update Author', author: result});
+        res.render('author_form', {title: 'Actualizar autor', author: result});
     })
 };
 // Handle Author update form on POST.
@@ -188,7 +187,7 @@ exports.author_update_post =[
         if (!errors.isEmpty()) {
             // There are erros. render form again with sanitized
             // values and error messages
-            res.render('author_form', {title: 'Update Author', author: author, errors: errors.array()});
+            res.render('author_form', {title: 'Actualizar autor', author: author, errors: errors.array()});
             return;
         }
         else {
